@@ -10,9 +10,14 @@ if coords:
     x, y = coords
     print(f"found: {x}, {y}")
     
-    # Run the script normally, only sudo the specific ydotool command
     socket = "YDOTOOL_SOCKET=/tmp/.ydotool_socket"
-    cmd = f"sudo {socket} ydotool mousemove -a 0 0 && sudo {socket} ydotool mousemove {x} {y} click 0xC0"
+    
+    # Use '--' to separate options from positional arguments.
+    # This prevents the argument parser from crashing.
+    cmd = (
+        f"sudo {socket} ydotool mousemove -a -- 0 0 && "
+        f"sudo {socket} ydotool mousemove -- {x} {y} click 0xC0"
+    )
     
     subprocess.run(cmd, shell=True)
     print("clicked")
