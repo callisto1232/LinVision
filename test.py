@@ -1,10 +1,20 @@
 from linvision import LinVision 
-print("imported")
+import subprocess
 
 vision = LinVision()
-vision.capture()
-word = input("enter one word")
+word = input("enter one word\n")
 
 coords = vision.find_element(word)
 
-print(coords)
+if coords:
+    x, y = coords
+    print(f"found: {x}, {y}")
+    
+    # Run the script normally, only sudo the specific ydotool command
+    socket = "YDOTOOL_SOCKET=/tmp/.ydotool_socket"
+    cmd = f"sudo {socket} ydotool mousemove -a 0 0 && sudo {socket} ydotool mousemove {x} {y} click 0xC0"
+    
+    subprocess.run(cmd, shell=True)
+    print("clicked")
+else:
+    print("none")

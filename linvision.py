@@ -14,7 +14,13 @@ class LinVision:
         if os.path.exists(self.last_shot):
             os.remove(self.last_shot)
 
-        self.ocr = PaddleOCR(lang="en", show_log=False)
+        self.ocr = PaddleOCR(lang="en",
+                             show_log=False,
+                             use_ange_cls=True,
+                             det_limit_side_len=960,
+                             det_db_thresh=0.3,
+                             det_db_box_thresh=0.5
+        )
 
     def capture(self):
         try:
